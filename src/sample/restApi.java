@@ -26,21 +26,21 @@ public class restApi {
            URL obj = new URL(url);
          //  HttpsURLConnection.setDefaultHostnameVerifier ((hostname, session) -> true);
            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-           String auth = new String(username + ":"+ password);
+           String json = new JSONObject()
+                   .put("UserName",username)
+                   .put("Password",password).toString();
 
-           String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+           System.out.println(json);
 
+           //Used for special code requiring base64 bytes
+        //   String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
 
-        /*   con.setRequestMethod("GET");
-           con.setRequestProperty("Authorization", "Basic " + encodedAuth);
-           con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:27.0) Gecko/20100101 Firefox/27.0.2 Waterfox/27.0");
-           con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");*/
            con.setRequestMethod("POST");
            con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:27.0) Gecko/20100101 Firefox/27.0.2 Waterfox/27.0");
            con.setRequestProperty("Content-Type", "application/json;charset=utf-8");
            con.setDoOutput(true);
            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-           wr.writeBytes(encodedAuth);
+           wr.writeBytes(json);
            wr.flush();
            wr.close();
 
